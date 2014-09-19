@@ -1,25 +1,54 @@
-var Promise   = require('bluebird'),
-  HTTP_ERROR  = require('./http.error'),
-  HTTP_METHOD = {
-    'post'  : 'POST',
-    'put'   : 'PUT',
-    'patch' : 'PATCH',
-    'head'  : 'HEAD',
-    'del'   : 'DELETE',
-    'get'   : 'GET'
-  };
+var Promise    = require('bluebird'),
+  HTTP_ERROR   = require('./http.error'),
+  HTTP_METHODS = {
+    post  : 'POST',
+    put   : 'PUT',
+    patch : 'PATCH',
+    head  : 'HEAD',
+    del   : 'DELETE',
+    get   : 'GET'
+  },
+  reqMethods = [
+    'get', 'head', 'post', 'put',
+    'patch', 'del', 'jar', 'cookie'
+  ];
 
 module.exports = (function wrapRequest(request){
+  reqMethods.forEach(function (method){
+    HTTP[method] = HTTP_METHODS.hasOwnProperty(method)
+                 ? wrapMethod(method)
+                 : request[method].bind(request);
+  });
+
+  HTTP.error = HTTP_ERROR;
+  HTTP.defaults = setDefaults;
+  Object.defineProperties(HTTP, {
+    request: {
+      value: request,
+      enumerable: false,
+      configurable: false,
+      writable: false
+    },
+    debug: {
+      get: function() { return request.debug },
+      set: function(v){ return request.debug = v },
+      enumerable: true
+    }
+  });
+
   function HTTP(options, extra){
     var opts = setOptions(options, extra);
     opts.method = opts.method.toUpperCase();
     return new Promise(function HTTP_PROMISE(resolve, reject) {
       request(opts, function HTTP_RESPONSE(error, response, body) {
-        var statusCode = response.statusCode;
         if (error) {
           error.options = opts;
+          error.statusCode = 0;
+          error.title = 'Invalid Request';
+          error.summary = 'failed to perform HTTP request';
           reject(error);
-        } else if (opts.error && statusCode >= 400) {
+        } else if (opts.error && response.statusCode >= 400) {
+          var statusCode = response.statusCode;
           var HTTPErr = HTTP.error.hasOwnProperty(statusCode)
                       ? HTTP.error[statusCode]
                       : statusCode >= 500
@@ -40,23 +69,14 @@ module.exports = (function wrapRequest(request){
   }
 
   function wrapMethod(method){
-    return function(options, extra){
-      var opts = setOptions(options, extra, method);
-      return HTTP(opts);
+    return function HTTP_METHOD(options, extra){
+      return HTTP(setOptions(options, extra, method));
     }
   }
 
-  Object.keys(request).forEach(function (k){
-    if (request.hasOwnProperty(k) && request[k])
-      HTTP[k] = HTTP_METHOD.hasOwnProperty(k)
-              ? wrapMethod(k)
-              : request[k].bind(request);
-  });
-
-  HTTP.error = HTTP_ERROR;
-  HTTP.defaults = function (defaults){
+  function setDefaults(defaults){
     return wrapRequest(request.defaults(defaults));
-  };
+  }
 
   return HTTP;
 })(require('request'));
@@ -73,11 +93,12 @@ function assign(target, extension){
 function setOptions(options, extra, method){
   var opts = assign({
     error: true,
-    method: method || 'GET'
+    method: 'GET'
   }, options);
   if (typeof options === 'string') {
     opts.uri = options;
     opts = assign(opts, extra);
   }
+  opts.method = method || opts.method;
   return opts;
 }
