@@ -1,0 +1,36 @@
+{
+  "name": "http.promise",
+  "description": "Create custom Error types that can be thrown with proper stack traces in V8",
+  "main": "http.promise.js",
+  "tags": [
+    "errors",
+    "exceptions",
+    "throw",
+    "custom",
+    "util",
+    "utility",
+    "xhr",
+    "promise",
+    "request",
+    "http",
+  ],
+  "version": "0.0.1",
+  "author": "James Cready <jcready@gmail.com> (http://stackoverflow.com/users/1397319/idbehold)",
+  "homepage": "https://github.com/jcready/http-req",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jcready/http-req.git"
+  },
+  "bugs": {
+    "url": "http://github.com/jcready/http-req/issues"
+  },
+  "license": "MIT",
+  "engines": [
+    "node >= 0.8.0"
+  ],
+  "dependencies": {
+    "bluebird": "^2.3.2",
+    "create-error": "^0.3.1",
+    "request": "^2.42.0"
+  }
+}
