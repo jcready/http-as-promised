@@ -1,5 +1,4 @@
 var Promise    = require('bluebird'),
-  HTTP_ERROR   = require('./http.error'),
   HTTP_METHODS = {
     post  : 'POST',
     put   : 'PUT',
@@ -20,7 +19,7 @@ module.exports = (function wrapRequest(request){
                  : request[method].bind(request);
   });
 
-  HTTP.error = HTTP_ERROR;
+  HTTP.error = require('./http.error');
   HTTP.defaults = setDefaults;
   Object.defineProperties(HTTP, {
     request: {
