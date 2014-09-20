@@ -10,12 +10,16 @@ var Promise    = require('bluebird'),
   reqMethods = [
     'get', 'head', 'post', 'put',
     'patch', 'del', 'jar', 'cookie'
-  ];
+  ],
+  defaultOptions = {
+    error: true,
+    method: 'GET'
+  };
 
-module.exports = (function wrapRequest(request){
+module.exports = (function wrapRequest(request, defaultOpts){
   reqMethods.forEach(function (method){
     HTTP[method] = HTTP_METHODS.hasOwnProperty(method)
-                 ? wrapMethod(method)
+                 ? wrapMethod(HTTP_METHODS[method])
                  : request[method].bind(request);
   });
 
@@ -50,13 +54,16 @@ module.exports = (function wrapRequest(request){
           var statusCode = response.statusCode;
           var HTTPErr = HTTP.error.hasOwnProperty(statusCode)
                       ? HTTP.error[statusCode]
-                      : statusCode >= 500
-                        ? HTTP.error.server
-                        : HTTP.error.client
+                      : statusCode < 500
+                        ? HTTP.error.client
+                        : statusCode < 600
+                          ? HTTP.error.server
+                          : HTTP.error;
           var httpErr = new HTTPErr;
           httpErr.body = body;
           httpErr.options = opts;
           httpErr.response = response;
+          httpErr.statusCode = statusCode;
           reject(httpErr);
         } else if (typeof opts.transform === 'function') {
           resolve([response, opts.transform(response, body)]);
@@ -69,35 +76,36 @@ module.exports = (function wrapRequest(request){
 
   function wrapMethod(method){
     return function HTTP_METHOD(options, extra){
-      return HTTP(setOptions(options, extra, method));
+      var opts = setOptions(options, extra, method);
+      return HTTP(opts);
     }
   }
 
   function setDefaults(defaults){
-    return wrapRequest(request.defaults(defaults));
+    var current = assign({}, defaultOpts);
+    return wrapRequest(
+      request.defaults(defaults),
+      assign(current, defaults)
+    );
+  }
+
+  function setOptions(options, extra, method){
+    var opts = assign(assign({}, defaultOpts), options);
+    if (typeof options === 'string') {
+      opts = assign(opts, extra);
+      opts.uri = options;
+    }
+    opts.method = method || opts.method;
+    return opts;
   }
 
   return HTTP;
-})(require('request'));
+})(require('request'), defaultOptions);
 
 function assign(target, extension){
-  if (!target) return extension || {};
   if (typeof extension === 'object' && extension !== null)
     for (var k in extension)
       if (extension.hasOwnProperty(k))
         target[k] = extension[k];
   return target;
-}
-
-function setOptions(options, extra, method){
-  var opts = assign({
-    error: true,
-    method: 'GET'
-  }, options);
-  if (typeof options === 'string') {
-    opts.uri = options;
-    opts = assign(opts, extra);
-  }
-  opts.method = method || opts.method;
-  return opts;
 }

@@ -17,7 +17,7 @@
     "https",
     "statusCode"
   ],
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "James Cready <jcready@gmail.com> (http://stackoverflow.com/users/1397319/idbehold)",
   "homepage": "https://github.com/jcready/http-as-promised",
   "repository": {
@@ -48,6 +48,8 @@
     "istanbul": "^0.3.2",
     "mocha": "^1.21.4",
     "mocha-lcov-reporter": "0.0.1",
-    "nock": "^0.46.0"
+    "nock": "^0.46.0",
+    "sinon": "^1.10.3",
+    "sinon-chai": "^2.5.0"
   }
 }
