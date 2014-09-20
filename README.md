@@ -1,5 +1,7 @@
 # HTTP as Promised — Promisified HTTP client.
 
+[![Build Status](https://travis-ci.org/jcready/http-as-promised.svg?branch=master)](https://travis-ci.org/jcready/http-as-promised)
+
 Using [Bluebird](https://github.com/petkaantonov/bluebird) and [Create Error](https://github.com/tgriesser/create-error) to make [Request](https://github.com/mikeal/request) easier to use. The most notible difference between this library and simply "promisifying" the request module is that this library will automatically reject the promise with an `HTTPError` if the response status code is an HTTP error status code (e.g. `response.statusCode >= 400`).
 
 ## Super simple to use
