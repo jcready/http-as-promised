@@ -1,6 +1,6 @@
 # HTTP as Promised — Promisified HTTP client.
 
-[![NPM Version][https://img.shields.io/npm/v/http-as-promised.svg?style=flat]](https://npmjs.org/package/http-as-promised)
+[![NPM Version](https://img.shields.io/npm/v/http-as-promised.svg?style=flat)](https://npmjs.org/package/http-as-promised)
 [![Build Status](https://travis-ci.org/jcready/http-as-promised.svg?branch=master)](https://travis-ci.org/jcready/http-as-promised)
 [![Coverage Status](https://coveralls.io/repos/jcready/http-as-promised/badge.png?branch=master)](https://coveralls.io/r/jcready/http-as-promised?branch=master)
 
