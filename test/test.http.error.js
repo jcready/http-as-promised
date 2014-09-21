@@ -53,7 +53,7 @@ describe('HTTP Error', function() {
         it('should be an instance of HTTPClientError', function(){
           expect(error).to.be.an.instanceof(http.error.client);
         });
-        it('should should have all the right properties', function(){
+        it('should have a type, title, summary, range, statusCode, and options', function(){
           expect(error.type).to.be.a('string');
           expect(error.title).to.be.a('string');
           expect(error.summary).to.be.a('string');
@@ -84,7 +84,7 @@ describe('HTTP Error', function() {
         it('should be an instance of HTTPServerError', function(){
           expect(error).to.be.an.instanceof(http.error.server);
         });
-        it('should should have all the right properties', function(){
+        it('should have a type, title, summary, range, statusCode, and options', function(){
           expect(error.type).to.be.a('string');
           expect(error.title).to.be.a('string');
           expect(error.summary).to.be.a('string');
@@ -96,7 +96,7 @@ describe('HTTP Error', function() {
     });
   });
 
-  describe('Non-standard HTTP Errors', function(){
+  describe('Non-Standard HTTP Errors', function(){
     var error = {
       client: {},
       server: {},
@@ -135,7 +135,7 @@ describe('HTTP Error', function() {
         }
       });
     });
-    it('should should have all the right properties', function(){
+    it('should have a type, title, summary, statusCode, and options', function(){
       keys.forEach(function (type){
         var err = error[type];
         var hasStatus = expect(err.statusCode).that.is.a('number');

@@ -65,10 +65,24 @@ module.exports = (function wrapRequest(request, defaultOpts){
           httpErr.response = response;
           httpErr.statusCode = statusCode;
           reject(httpErr);
-        } else if (typeof opts.transform === 'function') {
-          resolve([response, opts.transform(response, body)]);
         } else {
-          resolve([response, body]);
+          if (typeof opts.transform === 'function') {
+            body = opts.transform(response, body);
+          }
+          if (!opts.resolve) {
+            resolve([response, body]);
+          } else if (opts.resolve === 'body') {
+            resolve(body);
+          } else if (opts.resolve === 'response') {
+            resolve(response);
+          } else if (Array.isArray(opts.resolve)
+                  && opts.resolve.length === 2
+                  && opts.resolve[0] === 'body'
+                  && opts.resolve[1] === 'response') {
+            resolve([body, response]);
+          } else {
+            resolve([response, body]);
+          }
         }
       });
     });
