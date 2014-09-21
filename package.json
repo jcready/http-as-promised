@@ -3,7 +3,7 @@
   "description": "Promisified HTTP client",
   "readmeFilename": "README.md",
   "main": "http.promise.js",
-  "tags": [
+  "keywords": [
     "errors",
     "exceptions",
     "throw",

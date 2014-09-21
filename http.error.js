@@ -42,6 +42,7 @@ statusCodes.forEach(function (err){
   HTTPError[err.statusCode].prototype.toJSON = errorToJSON;
 });
 
+HTTPError[0] = HTTPError;
 HTTPError.prototype.toJSON = errorToJSON;
 
 function errorToJSON(){
