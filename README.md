@@ -64,10 +64,6 @@ request('http://www.google.com')
 })
 ```
 
-## Consistency with Request
-
-HTTP as Promised supports all the same [options you'd pass to request](https://github.com/mikeal/request/blob/master/README.md#requestoptions-callback) as well as all of [Request's convenience methods](https://github.com/mikeal/request/blob/master/README.md#convenience-methods).
-
 [npm-image]: https://img.shields.io/npm/v/http-as-promised.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/http-as-promised
 [travis-image]: http://img.shields.io/travis/jcready/http-as-promised.svg?style=flat-square
