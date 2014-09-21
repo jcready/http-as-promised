@@ -23,9 +23,14 @@ module.exports = (function wrapRequest(request, defaultOpts){
                  : request[method].bind(request);
   });
 
-  HTTP.error = require('./http.error');
   HTTP.defaults = setDefaults;
   Object.defineProperties(HTTP, {
+    error: {
+      value: require('./http.error'),
+      enumerable: false,
+      configurable: false,
+      writable: false
+    },
     request: {
       value: request,
       enumerable: false,

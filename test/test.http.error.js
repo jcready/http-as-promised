@@ -36,7 +36,8 @@ describe('HTTP Error', function() {
 
   describe('HTTP Client Rejection', function () {
     clientHttpErrorPromises.forEach(function (req, i){
-      describe('HTTP ' + clientHttpErrors[i].message, function(){
+      var err = clientHttpErrors[i];
+      describe('@error[' + err.statusCode + '] - ' + err.title, function(){
         var error = null;
         before(function (done){
           req.catch(function (e){
@@ -67,7 +68,8 @@ describe('HTTP Error', function() {
 
   describe('HTTP Server Rejection', function(){
     serverHttpErrorPromises.forEach(function (req, i){
-      describe('HTTP ' + serverHttpErrors[i].message, function () {
+      var err = serverHttpErrors[i];
+      describe('@error[' + err.statusCode + '] - ' + err.title, function () {
         var error = null;
         before(function (done){
           req.catch(function (e){

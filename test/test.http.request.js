@@ -38,9 +38,6 @@ describe('HTTP Request', function() {
     it('should not be an instance of HTTPError', function(){
       expect(error).to.not.be.an.instanceof(http.error);
     });
-    it('should be an instance of HTTPServerError', function(){
-      expect(error).to.not.be.an.instanceof(http.error.server);
-    });
     it('should have a title, summary, statusCode, and options', function(){
       expect(error.summary).to.be.a('string');
       expect(error.options).to.be.an('object');
