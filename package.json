@@ -17,7 +17,7 @@
     "https",
     "statusCode"
   ],
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": "James Cready <jcready@gmail.com> (http://stackoverflow.com/users/1397319/idbehold)",
   "homepage": "https://github.com/jcready/http-as-promised",
   "repository": {
@@ -32,8 +32,9 @@
     "node >= 0.10.0"
   ],
   "scripts": {
-    "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha test -- -u exports -R spec && open coverage/lcov-report/http-as-promised/index.html"
+    "test": "mocha test",
+    "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- -u exports -R spec && open coverage/lcov-report/http-as-promised/index.html"
   },
   "dependencies": {
     "bluebird": "^2.3.2",

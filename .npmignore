@@ -1,0 +1,8 @@
+test
+coverage
+node_modules
+npm-debug.log
+.git*
+.travis.yml
+.coveralls.yml
+.DS_Store
