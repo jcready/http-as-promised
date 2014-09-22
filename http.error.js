@@ -48,8 +48,7 @@ HTTPError.prototype.toJSON = errorToJSON;
 function errorToJSON(){
   var error = {};
   for (var k in this)
-    if (k !== 'response')
-      error[k] = this[k];
+    error[k] = this[k];
   return error;
 }
 

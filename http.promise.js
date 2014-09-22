@@ -1,4 +1,7 @@
-var Promise    = require('bluebird'),
+var Promise = require('bluebird'),
+  onPossiblyUnhandledRejection = Promise.onPossiblyUnhandledRejection.bind(Promise),
+  onUnhandledRejectionHandled = Promise.onUnhandledRejectionHandled.bind(Promise),
+  longStackTraces = Promise.longStackTraces.bind(Promise),
   HTTP_METHODS = {
     post  : 'POST',
     put   : 'PUT',
@@ -24,6 +27,9 @@ module.exports = (function wrapRequest(request, defaultOpts){
   });
 
   HTTP.defaults = setDefaults;
+  HTTP.onPossiblyUnhandledRejection = onPossiblyUnhandledRejection;
+  HTTP.onUnhandledRejectionHandled = onUnhandledRejectionHandled;
+  HTTP.longStackTraces = longStackTraces;
   Object.defineProperties(HTTP, {
     error: {
       value: require('./http.error'),
@@ -69,6 +75,12 @@ module.exports = (function wrapRequest(request, defaultOpts){
           httpErr.options = opts;
           httpErr.response = response;
           httpErr.statusCode = statusCode;
+          Object.defineProperty(httpErr, 'response', {
+            value: response,
+            enumerable: false,
+            configurable: false,
+            writable: false
+          });
           reject(httpErr);
         } else {
           if (typeof opts.transform === 'function') {
