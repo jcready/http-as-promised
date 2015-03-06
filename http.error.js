@@ -1,5 +1,7 @@
+'use strict';
+
 var createError = require('create-error'),
-    statusCodes = require('./http.statusCodes')
+    statusCodes = require('./http.statusCodes'),
     HTTPError = createError('HTTPError', {
       range: 'xxx',
       statusCode: 0,

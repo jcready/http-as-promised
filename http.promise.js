@@ -1,3 +1,5 @@
+'use strict';
+
 var Promise = require('bluebird'),
   onPossiblyUnhandledRejection = Promise.onPossiblyUnhandledRejection.bind(Promise),
   onUnhandledRejectionHandled = Promise.onUnhandledRejectionHandled.bind(Promise),
@@ -133,7 +135,7 @@ module.exports = (function wrapRequest(request, defaultOpts){
   return HTTP;
 })(require('request'), defaultOptions);
 
-function assign(target, extension){
+function assign(target, extension){ /*eslint-disable curly*/
   if (typeof extension === 'object' && extension !== null)
     for (var k in extension)
       if (extension.hasOwnProperty(k))

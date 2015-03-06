@@ -3,6 +3,8 @@
 [![NPM Version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
+[![Code Climate][codeclimate-image]][codeclimate-url]
+[![Dependencies][dependencies-image]][dependencies-url]
 
 Using [bluebird][bluebird] and [create-error][create-error] to make [request][request] easier to use. The most notible difference between this library and simply "promisifying" the request module is that this library will automatically reject the promise with an `HTTPError` if the response idicates an HTTP error (e.g. `response.statusCode >= 400`). HTTP as Promised supports all the same [options you'd pass to request](https://github.com/mikeal/request/blob/master/README.md#requestoptions-callback) as well as all of [request's convenience methods](https://github.com/mikeal/request/blob/master/README.md#convenience-methods).
 
@@ -198,6 +200,10 @@ $http.request('http://google.com/doodle.png').pipe(fs.createWriteStream('doodle.
 [travis-url]: https://travis-ci.org/jcready/http-as-promised
 [coveralls-image]: http://img.shields.io/coveralls/jcready/http-as-promised.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/jcready/http-as-promised?branch=master
+[dependencies-image]: https://img.shields.io/david/jcready/http-as-promised.svg?style=flat-square
+[dependencies-url]: https://david-dm.org/jcready/http-as-promised
+[codeclimate-image]: https://img.shields.io/codeclimate/github/jcready/http-as-promised.svg?style=flat-square
+[codeclimate-url]: https://codeclimate.com/github/jcready/http-as-promised
 
 [bluebird]: https://www.npmjs.org/package/bluebird
 [request]: https://www.npmjs.org/package/request

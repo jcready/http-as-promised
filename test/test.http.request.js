@@ -1,12 +1,11 @@
-/*jslint nodejs: true, expr: true*/
-/*global describe: true, it: true, before: true*/
+'use strict';
 
 process.env.NODE_ENV = 'test';
 
-var chai  = require('chai'),
-  url     = 'http://thisurlwillneverexisthttpaspromised.com',
+/*eslint-disable no-mixed-requires*/
+var url   = 'http://thisurlwillneverexisthttpaspromised.com',
+  chai    = require('chai'),
   nock    = require('nock')(url),
-  sinon   = require('sinon'),
   Promise = require('bluebird'),
   http    = require('../http.promise'),
   methods = {
@@ -72,14 +71,14 @@ describe('HTTP Request', function() {
       newhttp = http.defaults({
         method: 'POST',
         resolve: 'body',
-        transform: function(response, body){
+        transform: function(response){
           return response.statusCode;
         }
       });
       expect(Object.keys(http)).to.be.eql(Object.keys(newhttp));
     });
     it('should default to the options passed in to it', function(){
-      return expect(newhttp(url+'/defaults')).to.eventually.eql(202);
+      return expect(newhttp(url + '/defaults')).to.eventually.eql(202);
     });
     it('should allow you to override the defaults per-call', function(){
       var req = newhttp.put(url, { resolve: ['body', 'response'] });
@@ -91,27 +90,32 @@ describe('HTTP Request', function() {
     });
     it('should allow you to reset the defaults', function(){
       var datoldold = http.defaults({});
-      return datoldold(url, { resolve: 'foobar' }).spread(function (response, body){
+      return datoldold(url, { resolve: 'foobar' }).spread(function (response){
         expect(response).to.have.property('statusCode', 208);
       });
     });
   });
 
+  function testMethod(k){
+    return function(){
+      var req = null;
+      before(function(){
+        var nockKey = k === 'del' ? 'delete' : k;
+        nock[nockKey]('/' + k).reply(200);
+        req = http[k](url + '/' + k);
+      });
+      it('should return a Promise', function(){
+        expect(req).to.be.an.instanceof(Promise);
+      });
+      it('should perform a ' + methods[k] + ' request', function(){
+        return expect(req).to.be.resolved;
+      });
+    };
+  }
+
   for (var k in methods) {
     if (methods.hasOwnProperty(k)) {
-      describe('#' + k + '()', function(){
-        var req = null;
-        before(function(){
-          nock[k]('/'+k).reply(200);
-          req = http[k](url+'/'+k);
-        });
-        it('should return a Promise', function(){
-          expect(req).to.be.an.instanceof(Promise);
-        });
-        it('should perform a ' + methods[k] + ' request', function(){
-          return expect(req).to.be.resolved;
-        });
-      });
+      describe('#' + k + '()', testMethod(k));
     }
   }
 });

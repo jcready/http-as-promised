@@ -1,5 +1,4 @@
-/*jslint nodejs: true, expr: true*/
-/*global describe: true, it: true, before: true*/
+'use strict';
 
 process.env.NODE_ENV = 'test';
 
@@ -15,9 +14,10 @@ var expect = chai.expect;
 Promise.onPossiblyUnhandledRejection(function(){});
 
 describe('HTTP Error', function() {
-  var httpError = new HTTPError;
-  var clientHttpErrors = [],  serverHttpErrors = [];
-  var clientHttpErrorPromises = []; serverHttpErrorPromises = [];
+  var clientHttpErrors = [],
+      serverHttpErrors = [],
+      clientHttpErrorPromises = [],
+      serverHttpErrorPromises = [];
   statusCodes.forEach(function (status){
     if (status.statusCode < 500) {
       nock.get('/').reply(status.statusCode);
