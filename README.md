@@ -30,7 +30,7 @@ In addition to [all of the options](https://www.npmjs.org/package/request#reques
 
 * **`error`** - If set to `false` HTTP as Promised will no longer reject the response with an [`HTTPError`](#http-errors) based on the its HTTP status code. Defaults to `true`. [See below](#http-errors).
 
-* **`resolve`** - Indicates the fulfillment value with which you want the HTTP promise to be resolve. Accepts a string or array of strings. Possible values: 
+* **`resolve`** - Indicates the fulfillment value with which you want the HTTP promise to be resolved. Accepts a string or array of strings. Possible values: 
 
   * **`['response', 'body']`** *(default)* - By default HTTP as Promised will resolve promises with an array containing the `response` ([`http.IncomingMessage`](http://nodejs.org/api/http.html#http_http_incomingmessage) object) followed by the response `body` (`String`, `Buffer`, or JSON object if the `json` option is supplied). This means that for simple access to the `body` you would probably want to use [`.spread()`](https://github.com/petkaantonov/bluebird/blob/master/API.md#spreadfunction-fulfilledhandler--function-rejectedhandler----promise) instead of [`.then()`](https://github.com/petkaantonov/bluebird/blob/master/API.md#thenfunction-fulfilledhandler--function-rejectedhandler----promise) as seen in the example above.
   * **`['body', 'response']`** - This swaps the ordering of the resolved array so that the "body" comes before the "response" object in the resolved array.
