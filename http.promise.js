@@ -63,7 +63,7 @@ module.exports = (function wrapRequest(request, defaultOpts){
           error.title = 'Invalid Request';
           error.summary = 'failed to perform HTTP request';
           reject(error);
-        } else if (opts.error && response.statusCode >= 400) {
+        } else if (opts.error && (response.statusCode === 0 || response.statusCode >= 400)) {
           var statusCode = response.statusCode;
           var HTTPErr = HTTP.error.hasOwnProperty(statusCode)
                       ? HTTP.error[statusCode]
