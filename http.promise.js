@@ -57,7 +57,8 @@ module.exports = (function wrapRequest(request, defaultOpts){
     opts.method = opts.method.toUpperCase();
     return new Promise(function HTTP_PROMISE(resolve, reject) {
       request(opts, function HTTP_RESPONSE(error, response, body) {
-        if (error) {
+        // statusCode 0: disconnected state
+        if (error || (response && response.statusCode === 0)) {
           error.options = opts;
           error.statusCode = 0;
           error.title = 'Invalid Request';
