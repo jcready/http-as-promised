@@ -28,9 +28,9 @@
     "url": "http://github.com/jcready/http-as-promised/issues"
   },
   "license": "MIT",
-  "engines": [
-    "node >= 0.10.0"
-  ],
+  "engines": {
+    "node": ">=4"
+  },
   "scripts": {
     "test": "mocha test && eslint ./",
     "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
