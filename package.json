@@ -17,7 +17,7 @@
     "https",
     "statusCode"
   ],
-  "version": "1.2.0",
+  "version": "2.0.0",
   "author": "James Cready <jcready@gmail.com> (http://stackoverflow.com/users/1397319/idbehold)",
   "homepage": "https://github.com/jcready/http-as-promised",
   "repository": {
