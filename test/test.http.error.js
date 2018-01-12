@@ -9,7 +9,6 @@ var chai      = require('chai'),
   http        = require('../http.promise'),
   statusCodes = require('../http.statusCodes');
 
-chai.use(require('chai-as-promised'));
 var expect = chai.expect;
 Promise.onPossiblyUnhandledRejection(function(){});
 
@@ -31,7 +30,9 @@ describe('HTTP Error', function() {
   });
 
   before(function(){
-    return Promise.settle(clientHttpErrorPromises.concat(serverHttpErrorPromises));
+    return Promise.all(clientHttpErrorPromises.concat(serverHttpErrorPromises).map(function (promise) {
+      return promise.reflect()
+    }));
   });
 
   describe('HTTP Client Rejection', function () {

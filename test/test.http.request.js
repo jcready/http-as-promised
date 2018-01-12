@@ -108,7 +108,7 @@ describe('HTTP Request', function() {
         expect(req).to.be.an.instanceof(Promise);
       });
       it('should perform a ' + methods[k] + ' request', function(){
-        return expect(req).to.be.resolved;
+        return req;
       });
     };
   }
